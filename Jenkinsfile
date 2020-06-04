@@ -10,14 +10,14 @@ pipeline {
     stage('Git fetch') { 
       steps {
         // Get some code from a GitHub repository
-        git 'https://github.com/dogudo/hmis-sesion06.git'
+        git 'https://https://github.com/dogudo/ejercicio3-examen.git'
       }
     }
     stage('Compile, Test, Package') { 
       steps {
         // When necessary, use '-f path-to/pom.xml' to give the path to pom.xml
         // Run goal 'package'. It includes compile, test and package.
-        sh "mvn  -f Sesion06abm490/pom.xml clean package" 
+        sh "mvn  -f pom.xml clean package" 
       }
       post { 
         // Record the test results and archive the jar file.
@@ -37,7 +37,7 @@ pipeline {
     stage ('Analysis') {
         steps {
     	    // Warnings next generation plugin required
-    	    sh "mvn -f Sesion06abm490/pom.xml site"
+    	    sh "mvn -f pom.xml site"
         }
         post {
             // Record the test results and archive the jar file.
@@ -53,12 +53,12 @@ pipeline {
     }
     stage ('Documentation') {
         steps {
-	        sh "mvn -f Sesion06abm490/pom.xml javadoc:javadoc javadoc:aggregate" 
+	        sh "mvn -f pom.xml javadoc:javadoc javadoc:aggregate" 
         }
         post{
             success {
-                step $class: 'JavadocArchiver', javadocDir: 'Sesion06abm490/target/site/apidocs', keepAll: false 
-                publishHTML(target: [reportName: 'Maven Site', reportDir: 'Sesion06abm490/target/site', reportFiles: 'index.html', keepAll: false]) 
+                step $class: 'JavadocArchiver', javadocDir: 'target/site/apidocs', keepAll: false 
+                publishHTML(target: [reportName: 'Maven Site', reportDir: 'target/site', reportFiles: 'index.html', keepAll: false]) 
             }
         }
     }
